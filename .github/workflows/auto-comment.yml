@@ -1,26 +1,39 @@
 name: Auto Comment
-on: [issues, pull_request]
-permissions: write-all
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed, unlabeled]
+  issues:
+    types: [opened]
+
+permissions:
+  pull-requests: write
+  issues: write
+
 jobs:
-  run:
+  comment:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: wow-actions/auto-comment@v1.1.2
+      - name: Auto Comment on Issues and PRs
+        uses: wow-actions/auto-comment@v1.1.2
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}   # Use token here, not GITHUB_TOKEN in `with` 
           issuesOpened: |
-             @{{ author }} Please Star ⭐️ the repo to earn "**_hacktober-accepted_**" label for the event.
-             Meanwhile if you want to work on this issue, Please raise the PR and we will review and merge it.
-       
+            @{{ author }} Please Star ⭐️ the repo to earn "**_hacktober-accepted_**" label for the event.
+            Meanwhile, if you want to work on this issue, please raise a PR, and we will review and merge it.
 
           pullRequestOpened: |
-             @{{ author }} Please Star ⭐️ the repo to earn "**_hacktober-accepted_**" label for the event.
-             
+            @{{ author }} Please Star ⭐️ the repo to earn "**_hacktober-accepted_**" label for the event.
+
           pullRequestUnlabeled: |
-             @{{ author }} Please Star ⭐️ the repo to earn "**_hacktober-accepted_**" label to participate in the event.
+            @{{ author }} Please Star ⭐️ the repo to earn "**_hacktober-accepted_**" label to participate in the event.
+
           pullRequestSynchronize: |
-             @{{ author }} Please Star ⭐️ the repo to earn "**_hacktober-accepted_**" label to participate in the event.
+            @{{ author }} Please Star ⭐️ the repo to earn "**_hacktober-accepted_**" label to participate in the event.
+
           pullRequestClosed: |
-             @{{ author }} As your PR is closed now, Please Star ⭐️ the repo to earn "**_hacktober-accepted_**" label to participate in the event.
+            @{{ author }} As your PR is closed now, please Star ⭐️ the repo to earn "**_hacktober-accepted_**" label to participate in the event.
+
           pullRequestReopened: |
-             @{{ author }} As your PR is closed now, Please Star ⭐️ the repo to earn "**_hacktober-accepted_**" label to participate in the event.
+            @{{ author }} Your PR has been reopened. Please Star ⭐️ the repo to earn "**_hacktober-accepted_**" label for the event.
